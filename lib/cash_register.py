@@ -5,7 +5,6 @@ class CashRegister:
         self.total = 0
         self.items = []
         
-        
         self._last_transaction_amount = 0
         self._last_transaction_count = 0
 
@@ -13,33 +12,34 @@ class CashRegister:
         
         transaction_amount = price * quantity
         
+        self.total = round(self.total + transaction_amount, 2)
         
-        self.total += transaction_amount
-        
+       
         self.items.extend([title] * quantity)
         
-        
+       
         self._last_transaction_amount = transaction_amount
         self._last_transaction_count = quantity
 
     def apply_discount(self):
         if self.discount > 0:
-          
-            discount_amount = self.total * (self.discount / 100)
-            self.total -= discount_amount
+           
+            discount_reduction = self.total * (self.discount / 100)
+            self.total = round(self.total - discount_reduction, 2)
             
             
             print(f"After the discount, the total comes to ${int(self.total)}.")
         else:
-            
+           
             print("There is no discount to apply.")
 
     def void_last_transaction(self):
         
-        self.total -= self._last_transaction_amount
+        self.total = round(self.total - self._last_transaction_amount, 2)
         
         if self._last_transaction_count > 0:
             self.items = self.items[:-self._last_transaction_count]
+        
         
         self._last_transaction_amount = 0
         self._last_transaction_count = 0
